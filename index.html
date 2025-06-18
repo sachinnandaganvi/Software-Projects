@@ -3,32 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Click Word to Show Image</title>
+    <title>Engineering & AI ChatBot</title>
     <style>
-        #imageContainer {
-            display: none;
-            margin-top: 10px;
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .clickable-word {
-            color: blue;
+
+        .chatbot-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 400px;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .chat-messages {
+            padding: 15px;
+            overflow-y: auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            clear: both;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .user-message {
+            background-color: #e0f7fa;
+            align-self: flex-end;
+            color: #1a237e;
+        }
+
+        .bot-message {
+            background-color: #f0f4c3;
+            align-self: flex-start;
+            color: #33691e;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            text-decoration: underline;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        #send-button:hover {
+            background-color: #1e7e34;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-
-    <p><span class="clickable-word" onclick="showImage()">Company logo</span> to see the image.</p>
-
-    <div id="imageContainer">
-        <img src="WhatsApp Image 2025-03-04 at 07.14.14_d686231c.jpg" alt="Displayed Image">
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <h2>Engineering & Sanju ChatBot</h2>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">Hello! Ask me anything about engineering or AI.</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
     </div>
 
     <script>
-        function showImage() {
-            document.getElementById("imageContainer").style.display = "block";
-        }
-    </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
 
+            sendButton.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                const userMessageText = messageInput.value.trim();
+                if (userMessageText) {
+                    appendMessage('user', userMessageText);
+                    messageInput.value = '';
+
+                    // Simulate bot response (replace with actual API call)
+                    getBotResponse(userMessageText)
+                        .then(botResponseText => {
+                            appendMessage('bot', botResponseText);
+                        })
+                        .catch(error => {
+                            appendMessage('bot', 'Sorry, I encountered an error.');
+                            console.error("Error fetching bot response:", error);
+                        });
+                }
+            }
+
+            async function getBotResponse(userMessage) {
+                // **THIS IS WHERE YOU WOULD INTEGRATE YOUR API CALL**
+                // Example using fetch (replace with your actual API endpoint and logic)
+                // const apiUrl = 'YOUR_API_ENDPOINT';
+                // const response = await fetch(apiUrl, {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify({ message: userMessage }),
+                // });
+                // const data = await response.json();
+                // return data.response; // Adjust based on your API's response structure
+
+                // **For this HTML-only example, we'll provide static responses:**
+                const lowerCaseMessage = userMessage.toLowerCase();
+                if (lowerCaseMessage.includes('what is artificial intelligence')) {
+                    return "Artificial intelligence (AI) is a wide-ranging branch of computer science concerned with building smart machines capable of performing tasks that typically require human intelligence.";
+                } else if (lowerCaseMessage.includes('explain structural engineering')) {
+                    return "Structural engineering is a sub-discipline of civil engineering in which structural engineers are trained to design the 'bones and muscles' of man-made structures.";
+                } else if (lowerCaseMessage.includes('types of machine learning')) {
+                    return "The main types of machine learning are supervised learning, unsupervised learning, and reinforcement learning.";
+                } else if (lowerCaseMessage.includes('principles of thermodynamics')) {
+                    return "The four laws of thermodynamics define fundamental physical quantities (temperature, energy, and entropy) and characterize the processes of energy transfer as heat and work.";
+                } else {
+                    return "I am Fine How about You";
+                }
+            }
+
+            function appendMessage(sender, text) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', `${sender}-message`);
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the latest message
+            }
+        });
+    </script>
 </body>
 </html>
