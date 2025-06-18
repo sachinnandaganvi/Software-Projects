@@ -1,119 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
-    
-        
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electrical Engineer Resume</title>
+    <title>Click Word to Show Image</title>
     <style>
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .resume {
-            width: 90%;
-            max-width: 800px;
-            background: linear-gradient(135deg, #e0c2ff, #a8c0ff, #90caf9);
-            border: 4px solid #333;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 15px;
-        }
-
-        .profile-image {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 20px;
-        }
-
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .section {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 15px;
-        }
-
-        .section:last-child {
-            border-bottom: none;
-        }
-
-        h2 {
-            color: #333;
-            border-bottom: 2px solid #66bb6a;
-            padding-bottom: 5px;
-        }
-
-        .info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .info p {
-            margin: 5px 0;
-        }
-
-        .skills ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .skills li {
-            background-color: #ffb74d;
-            color: white;
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 600px) {
-            .resume {
-                padding: 15px;
-            }
-
-            .info {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .profile-image {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-        }
         #imageContainer {
             display: none;
             margin-top: 10px;
@@ -126,83 +17,18 @@
     </style>
 </head>
 <body>
-    
 
+    <p><span class="clickable-word" onclick="showImage()">Company logo</span> to see the image.</p>
 
-<div class="resume">
-    <div class="header">
-        <div class="profile-image">
-            <img src="sanju 3.jpg" alt="Electrical Engineer Profile">
-        </div>
-        <div>
-            <h1>Sachin B Nandaganvi</h1>
-            <p>Electrical Engineer</p>
-        </div>
+    <div id="imageContainer">
+        <img src="WhatsApp Image 2025-03-04 at 07.14.14_d686231c.jpg" alt="Displayed Image">
     </div>
 
-    <div class="section">
-        <h2>Personal Information</h2>
-        <div class="info">
-            <p><strong>Email:</strong>sachinnandaganvi45@gmail.com</p>
-            <p><strong>Phone:</strong> +91 91102 41217</p>
-        </div>
-        <div class="info">
-            <p><strong>Location:</strong> Belaganvi, India</p>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Summary</h2>
-        <p>Highly motivated and detail-oriented Electrical Engineer with [Number] years of experience in [Specific Area]. Proven ability to design, develop, and implement electrical systems. Skilled in [Specific Tools/Software]. Seeking to leverage my expertise to contribute to innovative projects.</p>
-    </div>
-
-    <div class="section">
-        <h2>Experience</h2>
-        <div class="info">
-            <p><strong>Job Title:</strong> Senior Electrical Engineer</p>
-            <p><strong>Company:</strong> Name ? , With Future
-             <span class="clickable-word" onclick="showImage()">Company logo</span> </p>
-
-            <div id="imageContainer">
-                <img src="WhatsApp Image 2025-03-04 at 07.14.14_c46342b6.jpg" alt="Displayed Image">
-            </div>
-        
-            <script>
-                function showImage() {
-                    document.getElementById("imageContainer").style.display = "block";
-                }
-            </script>
-        </div>
-        <div class="info">
-            <p><strong>Duration:</strong> Start Date - End Date</p>
-            <p><strong>Description:</strong> Designed and implemented electrical systems for [Projects]. Conducted system testing and troubleshooting. Managed project budgets and timelines. Collaborated with cross-functional teams to achieve project goals.</p>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Education</h2>
-        <div class="info">
-            <p><strong>Degree:</strong> Bachelor of Science in Electrical Engineering</p>
-            <p><strong>University:</strong> University Name</p>
-        </div>
-        <div class="info">
-            <p><strong>Year:</strong> Year of Graduation</p>
-        </div>
-    </div>
-
-    <div class="section skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>Circuit Design</li>
-            <li>Power Systems</li>
-            <li>PLC Programming</li>
-            <li>MATLAB/Simulink</li>
-            <li>AutoCAD Electrical</li>
-            <li>Instrumentation</li>
-            <li>Project Management</li>
-        </ul>
-    </div>
-</div>
+    <script>
+        function showImage() {
+            document.getElementById("imageContainer").style.display = "block";
+        }
+    </script>
 
 </body>
 </html>
