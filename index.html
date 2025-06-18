@@ -3,155 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Animated AI Form</title>
+    <title>Responsive Login Form</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            margin: 0;
+            font-family: sans-serif;
+            background-color: darkblue;
+            overflow: hidden; /* Hide scrollbars for animation */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            overflow: hidden; /* Prevent scrollbars */
+            transition: background-color 0.5s ease; /* For theme change */
         }
 
-        .form-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            padding: 40px;
-            width: 90%;
-            max-width: 500px;
-            perspective: 800px; /* For 3D effect */
-            transform-style: preserve-3d;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            color: white;
-        }
-
-        .form-container:hover {
-            transform: rotateY(5deg) rotateX(5deg);
-            transition: transform 0.5s ease;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .form-group input, .form-group textarea {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #00bcd4;
-            outline: none;
-        }
-
-        .animated-button {
-            background: linear-gradient(to right, #667eea, #764ba2);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .animated-button::before {
-            content: '';
-            position: absolute;
+        #matrix-bg {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to right, #764ba2, #667eea);
-            z-index: -1;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
+            z-index: -1; /* Behind the form */
         }
 
-        .animated-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .animated-button:hover::before {
-            transform: scaleX(1);
-        }
-
-        #ai-response {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            padding: 40px;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            min-height: 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             text-align: center;
+            width: 90%;
+            max-width: 400px;
+            backdrop-filter: blur(10px); /* For the glow effect */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .login-container h2 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: #eee;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        .form-group input::placeholder {
+            color: #ccc;
+        }
+
+        .login-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        #delay-timer {
+            color: yellow;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 30px;
+                margin: 20px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="form-container">
-        <form id="myForm">
+    <div id="matrix-bg">
+        </div>
+    <div class="login-container">
+        <div id="delay-timer" style="display: none;"></div>
+        <h2>Login</h2>
+        <form id="login-form">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-            </div>
-            <button type="button" class="animated-button" onclick="simulateAI()">Submit & Ask AI</button>
+            <button type="submit" class="login-button">Login</button>
         </form>
-        <div id="ai-response"></div>
+        <div id="error-message"></div>
     </div>
 
     <script>
-        function simulateAI() {
-            const name = document.getElementById('name').value;
-            const message = document.getElementById('message').value;
-            const aiResponseDiv = document.getElementById('ai-response');
+        // --- JavaScript for Matrix Animation ---
+        const matrixBg = document.getElementById('matrix-bg');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        matrixBg.appendChild(canvas);
 
-            // Simulate AI processing (replace with actual AI integration)
-            aiResponseDiv.textContent = "AI is thinking...";
-            setTimeout(() => {
-                const responses = [
-                    `Hello, ${name}! Your message is insightful.`,
-                    `Thank you for your message, ${name}. We will get back to you soon.`,
-                    `AI analysis: Message received, ${name}.`,
-                    `Interesting message, ${name}. Let's discuss further.`,
-                    `Message processed, ${name}. Expect a detailed response.`
-                ];
-                aiResponseDiv.textContent = responses[Math.floor(Math.random() * responses.length)];
-            }, 2000); // Simulate 2 seconds of AI processing
+        const fontSize = 16;
+        const columns = Math.floor(width / fontSize);
+        const drops = Array(columns).fill(1);
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%^&*()_+=-`~[]\{}|;\':",./<>?';
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters[Math.floor(Math.random() * characters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            columns = Math.floor(width / fontSize);
+            drops.length = columns;
+            drops.fill(1);
+        }
+
+        setInterval(drawMatrix, 100);
+        window.addEventListener('resize', resizeCanvas);
+
+        // --- JavaScript for Static Login with Delay ---
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const delayTimer = document.getElementById('delay-timer');
+        let isDelayed = false;
+        let remainingDelay = 0;
+        let delayInterval;
+        const correctEmail = 'test@example.com';
+        const correctPassword = 'password123';
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            if (isDelayed) {
+                alert(`Please wait ${remainingDelay} seconds before trying again.`);
+                return;
+            }
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (email === correctEmail && password === correctPassword) {
+                // Simulate successful login and redirect
+                window.location.href = 'file:///C:/Users/hp/Desktop/Sanju/Form/matrixForm/index.html';
+            } else {
+                errorMessage.textContent = 'Invalid email or password.';
+                startDelay();
+            }
+        });
+
+        function startDelay() {
+            isDelayed = true;
+            remainingDelay = 30;
+            delayTimer.style.display = 'block';
+            delayTimer.textContent = `Trying again in ${remainingDelay} seconds...`;
+
+            delayInterval = setInterval(function() {
+                remainingDelay--;
+                delayTimer.textContent = `Trying again in ${remainingDelay} seconds...`;
+                if (remainingDelay <= 0) {
+                    clearInterval(delayInterval);
+                    isDelayed = false;
+                    delayTimer.style.display = 'none';
+                    errorMessage.textContent = ''; // Clear error message after delay
+                }
+            }, 1000);
         }
     </script>
-
 </body>
 </html>
