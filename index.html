@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Web Page</title>
+    <title>Colorful Web Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #ff6e7f, #bfe9ff); /* Gradient background */
             color: #333;
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
-            background-color: #007bff;
-            color: white;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent header */
             text-align: center;
             padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         nav {
-            background-color: #333;
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
             text-align: center;
             padding: 0.5rem 0;
@@ -37,62 +41,53 @@
         main {
             width: 80%;
             margin: 2rem auto;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent main */
             padding: 2rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            flex-grow: 1; /* Allow main to grow to fill space */
         }
 
         section {
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         h2 {
             color: #007bff;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 2px solid #ddd;
             padding-bottom: 0.5rem;
         }
 
         footer {
-            background-color: #333;
+            background-color: rgba(0, 0, 0, 0.8);
             color: white;
             text-align: center;
             padding: 1rem 0;
-            position:relative;
-            bottom:0;
-            width:100%;
         }
 
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 20px;
+        .icon-section {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
 
-        .grid-container {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 20px;
+        .icon-item {
+            text-align: center;
+            margin: 1rem;
         }
 
-        .grid-item {
-          background-color: #f9f9f9;
-          padding: 20px;
-          border-radius: 5px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          text-align: center;
-        }
-
-        .grid-item img {
-          max-width: 100%;
-          height: auto;
-          margin-bottom: 10px;
+        .icon-item i {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Welcome to My Sanju Website</h1>
+        <h1>Welcome to My Colorful Website</h1>
     </header>
 
     <nav>
@@ -104,46 +99,45 @@
 
     <main>
         <section>
-            <h2>About Us</h2>
-            <p>This is a simple example of a web page design. You can customize the content and styles to create your own unique website.</p>
+            <h2>About Our Colorful World</h2>
+            <p>This is a vibrant and colorful web page designed to showcase the beauty of web design. Enjoy the icons!</p>
         </section>
 
-        <section>
-            <h2>Our Services</h2>
-            <div class="container">
-              <div class="grid-container">
-                <div class="grid-item">
-                  <img src="sanju1.jpg" alt="Free course">
-                  <h3>Web Design</h3>
-                  <p>We provide professional web design services.</p>
-                </div>
-                <div class="grid-item">
-                  <img src="placeholder-image.jpg" alt="Service 2">
-                  <h3>Development</h3>
-                  <p>We develop robust and scalable web applications.</p>
-                </div>
-                <div class="grid-item">
-                  <img src="placeholder-image.jpg" alt="Service 3">
-                  <h3>Marketing</h3>
-                  <p>We help you reach your target audience.</p>
-                </div>
-                <div class="grid-item">
-                  <img src="placeholder-image.jpg" alt="Service 4">
-                  <h3>Consulting</h3>
-                  <p>Expert consulting for your online presence.</p>
-                </div>
-              </div>
+        <section class="icon-section">
+            <div class="icon-item">
+                <i class="fas fa-camera"></i>
+                <p>Photography</p>
+            </div>
+            <div class="icon-item">
+                <i class="fas fa-code"></i>
+                <p>Development</p>
+            </div>
+            <div class="icon-item">
+                <i class="fas fa-palette"></i>
+                <p>Design</p>
+            </div>
+            <div class="icon-item">
+                <i class="fas fa-music"></i>
+                <p>Music</p>
+            </div>
+            <div class="icon-item">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Shopping</p>
+            </div>
+            <div class="icon-item">
+                <i class="fas fa-plane"></i>
+                <p>Travel</p>
             </div>
         </section>
 
         <section>
             <h2>Contact Us</h2>
-            <p>Feel free to contact us for any inquiries.</p>
+            <p>Feel free to reach out to us with any questions.</p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 My Website</p>
+        <p>&copy; 2024 Colorful Website</p>
     </footer>
 
 </body>
