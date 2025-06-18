@@ -1,212 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Engineering Attendance Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Animated AI Form</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #8BC6EC, #9599E2);
+            overflow: hidden; /* Prevent scrollbars */
         }
 
-        .container {
-            background-color: white;
-            padding: 30px;
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-width: 800px;
-            animation: fadeIn 1s ease-out;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            perspective: 800px; /* For 3D effect */
+            transform-style: preserve-3d;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: white;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .form-container:hover {
+            transform: rotateY(5deg) rotateX(5deg);
+            transition: transform 0.5s ease;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            animation: tableFadeIn 1s ease-out;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        @keyframes tableFadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-            transition: background-color 0.3s ease;
+        .form-group input, .form-group textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
         }
 
-        th {
-            background-color: #f0f8ff;
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #00bcd4;
+            outline: none;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #e0f7fa;
-        }
-
-        button {
+        .animated-button {
             background: linear-gradient(to right, #667eea, #764ba2);
             color: white;
-            padding: 12px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            animation: pulse 2s infinite alternate;
-        }
-
-        @keyframes pulse {
-            from {
-                transform: scale(1);
-            }
-
-            to {
-                transform: scale(1.05);
-            }
-        }
-
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        #aiResponse {
-            margin-top: 25px;
-            padding: 15px;
-            border: 2px solid #a8dadc;
             border-radius: 8px;
-            text-align: center;
-            background-color: #e0fbfc;
-            animation: colorChange 5s infinite alternate;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
-        @keyframes colorChange {
-            from {
-                background-color: #e0fbfc;
-                border-color: #a8dadc;
-                color: #1d3557;
-            }
-
-            to {
-                background-color: #fce8e8;
-                border-color: #f7b7b7;
-                color: #880808;
-            }
+        .animated-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #764ba2, #667eea);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
         }
 
-        .attendance-input {
-            width: 60px;
+        .animated-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .animated-button:hover::before {
+            transform: scaleX(1);
+        }
+
+        #ai-response {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            min-height: 50px;
             text-align: center;
-            padding: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Engineering Attendance Calculator</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Attendance (100%)</th>
-                    <th> Feedback</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Ram</td><td><input type="number" class="attendance-input" value="88"></td><td id="feedback1"></td></tr>
-                <tr><td>Sanju</td><td><input type="number" class="attendance-input" value="88"></td><td id="feedback2"></td></tr>
-                <tr><td>Shreya</td><td><input type="number" class="attendance-input" value="24"></td><td id="feedback3"></td></tr>
-                <tr><td>Mahesh</td><td><input type="number" class="attendance-input" value="92"></td><td id="feedback4"></td></tr>
-                <tr><td>Rahul</td><td><input type="number" class="attendance-input" value="49"></td><td id="feedback5"></td></tr>
-                <tr><td>Vivak</td><td><input type="number" class="attendance-input" value="95"></td><td id="feedback6"></td></tr>
-                <tr><td>Divya</td><td><input type="number" class="attendance-input" value="90"></td><td id="feedback7"></td></tr>
-                <tr><td>Prem</td><td><input type="number" class="attendance-input" value="78"></td><td id="feedback8"></td></tr>
-                <tr><td>Asha</td><td><input type="number" class="attendance-input" value="60"></td><td id="feedback9"></td></tr>
-                <tr><td>Shanti</td><td><input type="number" class="attendance-input" value="87"></td><td id="feedback10"></td></tr>
-                <tr><td>Satya</td><td><input type="number" class="attendance-input" value="93"></td><td id="feedback11"></td></tr>
-                <tr><td>Ganesh</td><td><input type="number" class="attendance-input" value="84"></td><td id="feedback12"></td></tr>
-                <tr><td>Vishnu</td><td><input type="number" class="attendance-input" value="79"></td><td id="feedback13"></td></tr>
-                <tr><td>Vidya</td><td><input type="number" class="attendance-input" value="94"></td><td id="feedback14"></td></tr>
-                <tr><td>Sonali</td><td><input type="number" class="attendance-input" value="25"></td><td id="feedback15"></td></tr>
-            </tbody>
-        </table>
-        <button onclick="calculateAttendance()">Calculate Attendance</button>
-        <div id="aiResponse"></div>
+
+    <div class="form-container">
+        <form id="myForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="button" class="animated-button" onclick="simulateAI()">Submit & Ask AI</button>
+        </form>
+        <div id="ai-response"></div>
     </div>
+
     <script>
-        function calculateAttendance() {
-            let attendanceInputs = document.querySelectorAll('.attendance-input');
-            let totalAttendance = 0;
-            let students = [];
+        function simulateAI() {
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            const aiResponseDiv = document.getElementById('ai-response');
 
-            attendanceInputs.forEach((input, index) => {
-                let value = parseInt(input.value);
-                students.push(value);
-                let feedbackId = "feedback" + (index + 1);
-                let feedbackDiv = document.getElementById(feedbackId);
-
-                if (value < 85) {
-                    feedbackDiv.innerHTML = "You have less attendance and you need to attend regular to class.";
-                } else {
-                    feedbackDiv.innerHTML = "Attendance is Excellent.";
-                }
-                if (value < 75) {
-                    feedbackDiv.innerHTML = "You have very less attendance you meet your mentor with valid reason .";
-                } 
-                if (value < 50) {
-                    feedbackDiv.innerHTML = "You have very less attendance you meet with your Parents.";
-                } 
-                if (value < 25) {
-                    feedbackDiv.innerHTML = "You have very less attendance you need to improve otherwise you will be detained.";
-                } 
-            });
-
-            let averageAttendance = students.reduce((a, b) => a + b, 0) / students.length;
-            let aiResponseDiv = document.getElementById('aiResponse');
-
-            if (averageAttendance < 85) {
-                aiResponseDiv.innerHTML = "Overall attendance is very good but only some students needs to improve.";
-            } else {
-                aiResponseDiv.innerHTML = "Overall, you are excellent and you will be allotted full marks on the average.";
-            }
-            if (averageAttendance < 65) {
-                aiResponseDiv.innerHTML = "Overall attendance is very good but only some students needs to improve lot and attend regular to class.";
-            } 
-            if (averageAttendance < 25) {
-                aiResponseDiv.innerHTML = "Overall attendance is very good but only some students needs to improve otherwise you will be detained.";
-            } 
+            // Simulate AI processing (replace with actual AI integration)
+            aiResponseDiv.textContent = "AI is thinking...";
+            setTimeout(() => {
+                const responses = [
+                    `Hello, ${name}! Your message is insightful.`,
+                    `Thank you for your message, ${name}. We will get back to you soon.`,
+                    `AI analysis: Message received, ${name}.`,
+                    `Interesting message, ${name}. Let's discuss further.`,
+                    `Message processed, ${name}. Expect a detailed response.`
+                ];
+                aiResponseDiv.textContent = responses[Math.floor(Math.random() * responses.length)];
+            }, 2000); // Simulate 2 seconds of AI processing
         }
     </script>
+
 </body>
 </html>
