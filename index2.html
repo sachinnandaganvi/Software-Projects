@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorful Animated Calculator with AI</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: #f0f0f0;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      width: 300px;
+      border: 4px solid #333;
+    }
+
+    .display {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 24px;
+      text-align: right;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #e0e0e0;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+    }
+
+    .button {
+      padding: 15px;
+      font-size: 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      background: linear-gradient(135deg, #e0e0e0, #c8c8c8);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .operator {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      color: white;
+    }
+
+    .equal {
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      color: white;
+    }
+
+    .clear {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+      color: white;
+    }
+
+    #ai-response {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .calculator {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" class="display" id="display" readonly>
+    <div class="buttons">
+      <button class="button" onclick="appendToDisplay('7')">7</button>
+      <button class="button" onclick="appendToDisplay('8')">8</button>
+      <button class="button" onclick="appendToDisplay('9')">9</button>
+      <button class="button operator" onclick="appendToDisplay('+')">+</button>
+      <button class="button" onclick="appendToDisplay('4')">4</button>
+      <button class="button" onclick="appendToDisplay('5')">5</button>
+      <button class="button" onclick="appendToDisplay('6')">6</button>
+      <button class="button operator" onclick="appendToDisplay('-')">-</button>
+      <button class="button" onclick="appendToDisplay('1')">1</button>
+      <button class="button" onclick="appendToDisplay('2')">2</button>
+      <button class="button" onclick="appendToDisplay('3')">3</button>
+      <button class="button operator" onclick="appendToDisplay('*')">*</button>
+      <button class="button" onclick="appendToDisplay('0')">0</button>
+      <button class="button" onclick="appendToDisplay('.')">.</button>
+      <button class="button equal" onclick="calculate()">=</button>
+      <button class="button operator" onclick="appendToDisplay('/')">/</button>
+      <button class="button clear" onclick="clearDisplay()">C</button>
+    </div>
+    <div id="ai-response"></div>
+  </div>
+
+  <script>
+    function appendToDisplay(value) {
+      document.getElementById('display').value += value;
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+      document.getElementById('ai-response').textContent = '';
+    }
+
+    function calculate() {
+      try {
+        const result = eval(document.getElementById('display').value);
+        document.getElementById('display').value = result;
+        getAIResponse(result); //Call AI function
+      } catch (error) {
+        document.getElementById('display').value = 'Error';
+        document.getElementById('ai-response').textContent = '';
+      }
+    }
+
+    function getAIResponse(result) {
+        //Simulating an AI response. In a real application, you would use an API.
+        let aiMessage = "";
+        if (result > 100) {
+            aiMessage = "That's a big number!";
+        } else if (result < 0) {
+            aiMessage = "Negative result detected.";
+        } else {
+            aiMessage = "Result calculated successfully.";
+        }
+        document.getElementById('ai-response').textContent = aiMessage;
+    }
+  </script>
+</body>
+</html>

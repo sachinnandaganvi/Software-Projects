@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #111;
+            color: #eee;
+            overflow: hidden; /* Hide scrollbars for the matrix animation */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind other content */
+        }
+
+        .portfolio-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px; /* Reduced padding */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background-color: rgba(17, 17, 17, 0.8); /* Add a slight background for better readability */
+        }
+        
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px; /* Reduced margin */
+        }
+
+        .profile-image-container {
+           width: 300px;
+           height: 300px;
+            overflow: hidden;
+            border-style: 30%; /* Make it circular */
+            box-shadow: 0 0 30px  #00ff00; /* Initial glow */
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .profile-image-container:hover {
+            box-shadow: 0 0 30px #00ff00; /* Stronger glow on hover */
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit:cover;
+            display: block;
+        }
+
+        .name-container {
+            font-size: 2em;
+            font-weight: bold;
+            color:blue;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(12, 12, 12, 0.8);
+            
+        }
+
+
+        .skills-text-container {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 15px 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #00ff00; /* Initial glow */
+            transition: box-shadow 0.3s ease-in-out;
+            white-space: nowrap; /* Prevent text wrapping */
+            display: inline-block; /* Ensure it respects width/alignment */
+            min-width: 450px; /* Set a minimum width for the box */
+            text-align: center; /* Center the text within the box */
+        }
+
+        .skills-text-container:hover {
+            box-shadow: 0 0 30px #00ff00; /* Stronger glow on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 780px) {
+            .portfolio-container {
+                flex-direction: row;
+                justify-content: center; /* Keep items centered */
+                text-align: left;
+                width: 100%; /* Adjust width as needed */
+                max-width: 1050px; /* Set a maximum width */
+            }
+
+            .profile-section {
+                margin-right: 250px; /* Add some space between image and text */
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <canvas id="matrix-canvas"></canvas>
+    <div class="portfolio-container">
+        <div class="profile-section">
+            <div  class="profile-image-container">
+                <img src="sanju 3.jpg" alt="Your Profile Picture" class="profile-image">
+            </div>
+        </div>
+      
+        <div class="skills-text-container">
+            <div class="name-container">Sachin Nandaganvi</div>
+            Hi I am a <span id="skills"></span>
+        </div>
+    </div>
+  
+
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        const katakana = '12034665';
+        const latin = 'ABCDEFGHIJKLM358635637438000';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+        const fontSize = 16;
+        const columns = width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            columns = width / fontSize;
+            drops.length = columns;
+            for (let i = 0; i < columns; i++) {
+                if (drops[i] === undefined) {
+                    drops[i] = 1;
+                }
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        setInterval(drawMatrix, 30); // Adjust speed here
+
+        // Typing animation for skills
+        const skillsElement = document.getElementById('skills');
+        const skillsContainer = document.querySelector('.skills-text-container');
+        const skillsArray = [ "Electrical Engineer", "Web Developer", "UI/UX Designer", "Frontend Engineer", "Backend Developer", 
+        "Game Developer", "PLC Programmer", "SCADA Programmer", "3D Model Designer", "PCB designeer", "Anroid Developer", "HMI Programmer", 
+        "Python Programmer", "Java Programmer"];
+        let skillIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 150;
+        const deletingSpeed = 75;
+        const pauseTime = 1500;
+
+        function typeSkills() {
+            const currentSkill = skillsArray[skillIndex];
+
+            if (isDeleting) {
+                skillsElement.textContent = currentSkill.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                skillsElement.textContent = currentSkill.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (charIndex === currentSkill.length + 1 && !isDeleting) {
+                isDeleting = true;
+                setTimeout(typeSkills, pauseTime);
+            } else if (charIndex === 0 && isDeleting) {
+                isDeleting = false;
+                skillIndex = (skillIndex + 1) % skillsArray.length;
+                setTimeout(typeSkills, typingSpeed);
+            } else {
+                setTimeout(typeSkills, isDeleting ? deletingSpeed : typingSpeed);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', typeSkills);
+    </script>
+</body>
+</html>
