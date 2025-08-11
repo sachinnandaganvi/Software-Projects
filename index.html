@@ -1,224 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Login Form</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: sans-serif;
-            background-color: darkblue;
-            overflow: hidden; /* Hide scrollbars for animation */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            transition: background-color 0.5s ease; /* For theme change */
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neon Glow Calculator</title>
+  <style>
+    :root {
+      --bg-color: #111;
+      --btn-color: linear-gradient(145deg, #d4d4d4, #a6a6a6);
+      --text-color: #000;
+      --glow-color: #00fff7;
+      --calc-bg: #1e1e1e;
+    }
 
-        #matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Behind the form */
-        }
+    body {
+      margin: 0;
+      background: var(--bg-color);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-        .login-container {
-            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            backdrop-filter: blur(10px); /* For the glow effect */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+    .calculator {
+      background: var(--calc-bg);
+      border-radius: 20px;
+      padding: 20px;
+      width: 360px;
+      max-width: 100%;
+      position: relative;
+      animation: borderPulse 3s infinite;
+    }
 
-        .login-container h2 {
-            color: #fff;
-            margin-bottom: 20px;
-        }
+    @keyframes borderPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 10px var(--glow-color),
+          0 0 20px var(--glow-color),
+          0 0 30px var(--glow-color),
+          0 0 40px var(--glow-color);
+      }
+      50% {
+        box-shadow:
+          0 0 20px var(--glow-color),
+          0 0 30px var(--glow-color),
+          0 0 40px var(--glow-color),
+          0 0 60px var(--glow-color);
+      }
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
+    .display {
+      background: #000;
+      color: #0f0;
+      font-size: 1.8rem;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: right;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      box-shadow: inset 0 0 10px #0f0;
+    }
 
-        .form-group label {
-            display: block;
-            color: #eee;
-            margin-bottom: 5px;
-        }
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
 
-        .form-group input[type="email"],
-        .form-group input[type="password"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid #555;
-            border-radius: 4px;
-            background-color: rgba(0, 0, 0, 0.2);
-            color: #fff;
-            box-sizing: border-box;
-        }
+    .btn {
+      background: var(--btn-color);
+      border: 1px solid #999;
+      padding: 18px;
+      font-size: 1rem;
+      border-radius: 12px;
+      box-shadow:
+        inset -4px -4px 8px #ffffff99,
+        inset 4px 4px 10px #00000066,
+        0 0 8px #444;
+      color: var(--text-color);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease-in-out;
+      outline: none;
+    }
 
-        .form-group input::placeholder {
-            color: #ccc;
-        }
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 8%;
+      left: 8%;
+      width: 84%;
+      height: 84%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px var(--glow-color), inset 0 0 4px var(--glow-color);
+      opacity: 0;
+      transition: 0.3s ease-in-out;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .login-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+    .btn:hover::before {
+      opacity: 0.5;
+    }
 
-        .login-button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
+    .btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 25px var(--glow-color), inset 0 0 10px var(--glow-color);
+    }
 
-        #error-message {
-            color: red;
-            margin-top: 10px;
-        }
+    .btn.glow-on::before {
+      opacity: 1 !important;
+      box-shadow: 0 0 20px var(--glow-color), inset 0 0 10px var(--glow-color);
+    }
 
-        #delay-timer {
-            color: yellow;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .login-container {
-                padding: 30px;
-                margin: 20px;
-            }
-        }
-    </style>
+    .toggle-btn, .theme-btn {
+      background: #000;
+      color: var(--glow-color);
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--glow-color);
+      cursor: pointer;
+      font-size: 1rem;
+      box-shadow: 0 0 12px var(--glow-color);
+      transition: all 0.3s ease;
+    }
+
+    .toggle-btn:hover, .theme-btn:hover {
+      background: var(--glow-color);
+      color: #000;
+    }
+  </style>
 </head>
 <body>
-    <div id="matrix-bg">
-        </div>
-    <div class="login-container">
-        <div id="delay-timer" style="display: none;"></div>
-        <h2>Login</h2>
-        <form id="login-form">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            </div>
-            <button type="submit" class="login-button">Login</button>
-        </form>
-        <div id="error-message"></div>
-    </div>
 
-    <script>
-        // --- JavaScript for Matrix Animation ---
-        const matrixBg = document.getElementById('matrix-bg');
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        matrixBg.appendChild(canvas);
+<div class="calculator" id="calculator">
+  <div class="display" id="display">0</div>
+  <div class="keys" id="keys">
+    <button class="btn">AC</button>
+    <button class="btn">(</button>
+    <button class="btn">)</button>
+    <button class="btn">√</button>
+    <button class="btn">^</button>
 
-        const fontSize = 16;
-        const columns = Math.floor(width / fontSize);
-        const drops = Array(columns).fill(1);
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%^&*()_+=-`~[]\{}|;\':",./<>?';
+    <button class="btn">sin</button>
+    <button class="btn">cos</button>
+    <button class="btn">tan</button>
+    <button class="btn">log</button>
+    <button class="btn">ln</button>
 
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = '#0F0';
-            ctx.font = `${fontSize}px monospace`;
+    <button class="btn">7</button>
+    <button class="btn">8</button>
+    <button class="btn">9</button>
+    <button class="btn">/</button>
+    <button class="btn">π</button>
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = characters[Math.floor(Math.random() * characters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
+    <button class="btn">4</button>
+    <button class="btn">5</button>
+    <button class="btn">6</button>
+    <button class="btn">*</button>
+    <button class="btn">e</button>
 
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            columns = Math.floor(width / fontSize);
-            drops.length = columns;
-            drops.fill(1);
-        }
+    <button class="btn">1</button>
+    <button class="btn">2</button>
+    <button class="btn">3</button>
+    <button class="btn">-</button>
+    <button class="btn">.</button>
 
-        setInterval(drawMatrix, 100);
-        window.addEventListener('resize', resizeCanvas);
+    <button class="btn">0</button>
+    <button class="btn">+</button>
+    <button class="btn">=</button>
+  </div>
 
-        // --- JavaScript for Static Login with Delay ---
-        const loginForm = document.getElementById('login-form');
-        const errorMessage = document.getElementById('error-message');
-        const delayTimer = document.getElementById('delay-timer');
-        let isDelayed = false;
-        let remainingDelay = 0;
-        let delayInterval;
-        const correctEmail = 'test@example.com';
-        const correctPassword = 'password123';
+  <div class="controls">
+    <button class="toggle-btn" onclick="toggleGlow()">💡 Toggle Light</button>
+    <button class="theme-btn" onclick="changeTheme()">🎨 Change Theme</button>
+  </div>
+</div>
 
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+<script>
+  const display = document.getElementById("display");
+  const keys = document.getElementById("keys");
+  let input = '';
+  let glowEnabled = true;
+  let themeIndex = 0;
 
-            if (isDelayed) {
-                alert(`Please wait ${remainingDelay} seconds before trying again.`);
-                return;
-            }
+  const themes = [
+    {
+      '--bg-color': '#111',
+      '--btn-color': 'linear-gradient(145deg, #d4d4d4, #a6a6a6)',
+      '--text-color': '#000',
+      '--glow-color': '#00fff7',
+      '--calc-bg': '#1e1e1e'
+    },
+    {
+      '--bg-color': '#000',
+      '--btn-color': 'linear-gradient(145deg, #555, #333)',
+      '--text-color': '#0ff',
+      '--glow-color': '#0ff',
+      '--calc-bg': '#111'
+    },
+    {
+      '--bg-color': '#121212',
+      '--btn-color': 'linear-gradient(145deg, #8a2be2, #4b0082)',
+      '--text-color': '#fff',
+      '--glow-color': '#ff69b4',
+      '--calc-bg': '#2c003e'
+    }
+  ];
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+  keys.addEventListener('click', e => {
+    const btn = e.target;
+    if (!btn.classList.contains('btn')) return;
+    const value = btn.textContent;
 
-            if (email === correctEmail && password === correctPassword) {
-                // Simulate successful login and redirect
-                window.location.href = 'file:///C:/Users/hp/Desktop/Sanju/Form/matrixForm/index.html';
-            } else {
-                errorMessage.textContent = 'Invalid email or password.';
-                startDelay();
-            }
-        });
+    if (glowEnabled) {
+      btn.classList.add("glow-on");
+      setTimeout(() => btn.classList.remove("glow-on"), 400);
+    }
 
-        function startDelay() {
-            isDelayed = true;
-            remainingDelay = 30;
-            delayTimer.style.display = 'block';
-            delayTimer.textContent = `Trying again in ${remainingDelay} seconds...`;
+    if (value === 'AC') {
+      input = '';
+      display.textContent = '0';
+      return;
+    }
 
-            delayInterval = setInterval(function() {
-                remainingDelay--;
-                delayTimer.textContent = `Trying again in ${remainingDelay} seconds...`;
-                if (remainingDelay <= 0) {
-                    clearInterval(delayInterval);
-                    isDelayed = false;
-                    delayTimer.style.display = 'none';
-                    errorMessage.textContent = ''; // Clear error message after delay
-                }
-            }, 1000);
-        }
-    </script>
+    if (value === '=') {
+      try {
+        const expr = input
+          .replace(/π/g, 'Math.PI')
+          .replace(/e/g, 'Math.E')
+          .replace(/√/g, 'Math.sqrt')
+          .replace(/sin/g, 'Math.sin')
+          .replace(/cos/g, 'Math.cos')
+          .replace(/tan/g, 'Math.tan')
+          .replace(/log/g, 'Math.log10')
+          .replace(/ln/g, 'Math.log')
+          .replace(/\^/g, '**');
+
+        input = eval(expr).toString();
+      } catch {
+        input = 'Error';
+      }
+      display.textContent = input;
+      return;
+    }
+
+    input += value;
+    display.textContent = input;
+  });
+
+  function toggleGlow() {
+    glowEnabled = !glowEnabled;
+  }
+
+  function changeTheme() {
+    themeIndex = (themeIndex + 1) % themes.length;
+    const theme = themes[themeIndex];
+    for (let key in theme) {
+      document.documentElement.style.setProperty(key, theme[key]);
+    }
+  }
+</script>
+
 </body>
 </html>
